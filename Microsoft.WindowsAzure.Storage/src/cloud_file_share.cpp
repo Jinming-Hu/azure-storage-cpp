@@ -265,16 +265,17 @@ namespace azure { namespace storage {
         return core::executor<bool>::execute_async(command, modified_options, context);
     }
 
-	pplx::task<int32_t> cloud_file_share::download_share_usage_aysnc(const file_access_condition& condition, const file_request_options& options, operation_context context) const
-	{
-		UNREFERENCED_PARAMETER(condition);
+    pplx::task<int32_t> cloud_file_share::download_share_usage_aysnc(const file_access_condition& condition, const file_request_options& options, operation_context context) const
+    {
+        UNREFERENCED_PARAMETER(condition);
 
-		return download_share_usage_in_bytes_async(condition, options, context).then([](int64_t size_in_bytes) -> pplx::task<int32_t> {
-			const int64_t bytes_per_gigabyte = 1024LL * 1024 * 1024;
-			int32_t size_in_gb = static_cast<int32_t>((size_in_bytes + bytes_per_gigabyte - 1) / bytes_per_gigabyte);
-			return pplx::task_from_result<int32_t>(size_in_gb);
-		});
-	}
+        return download_share_usage_in_bytes_async(condition, options, context).then([](int64_t size_in_bytes) -> pplx::task<int32_t>
+        {
+            const int64_t bytes_per_gigabyte = 1024LL * 1024 * 1024;
+            int32_t size_in_gb = static_cast<int32_t>((size_in_bytes + bytes_per_gigabyte - 1) / bytes_per_gigabyte);
+            return pplx::task_from_result<int32_t>(size_in_gb);
+        });
+    }
 
     pplx::task<int64_t> cloud_file_share::download_share_usage_in_bytes_async(const file_access_condition& condition, const file_request_options& options, operation_context context) const
     {

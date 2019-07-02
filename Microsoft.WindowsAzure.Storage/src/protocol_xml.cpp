@@ -819,7 +819,7 @@ namespace azure { namespace storage { namespace protocol {
         {
             extract_current_element(m_quota);
             return;
-		}
+        }
     }
 
     void get_share_stats_reader::handle_end_element(const utility::string_t& element_name)
