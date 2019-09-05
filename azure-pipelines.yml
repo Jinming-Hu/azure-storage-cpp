@@ -22,10 +22,7 @@ steps:
     cmake Microsoft.WindowsAzure.Storage/CMakeLists.txt -BMicrosoft.WindowsAzure.Storage/build.release/ -DCMAKE_BUILD_TYPE=Release -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON
     #make -j $(nproc) -C Microsoft.WindowsAzure.Storage/build.release/
     mkdir -p Microsoft.WindowsAzure.Storage/build.release/Binaries/
-    echo "$env:TEST_CONFIGURATION" > Microsoft.WindowsAzure.Storage/build.release/Binaries/test_configurations.json
+    echo '$(test_configuration)' > Microsoft.WindowsAzure.Storage/build.release/Binaries/test_configurations.json
     cat Microsoft.WindowsAzure.Storage/build.release/Binaries/test_configurations.json
-    pwd
-    cd Microsoft.WindowsAzure.Storage/build.release/Binaries/
-    pwd
     #Microsoft.WindowsAzure.Storage/build.release/Binaries/azurestoragetest $(excluded_testcases)
   displayName: 'make'
