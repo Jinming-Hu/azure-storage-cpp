@@ -1,0 +1,26 @@
+# C/C++ with GCC
+# Build your C/C++ project with GCC using make.
+# Add steps that publish test results, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
+
+trigger:
+- master
+- dev
+
+pr:
+- dev
+
+pool:
+  vmImage: 'ubuntu-16.04'
+
+container:
+  image: azurecppsdkpipeline.azurecr.io/ubuntu16.04:latest
+  endpoint: azurecppsdkpipeline
+  
+steps:
+- script: |
+    cmake Microsoft.WindowsAzure.Storage/CMakeLists.txt -BMicrosoft.WindowsAzure.Storage/build.release/ -DCMAKE_BUILD_TYPE=Release -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON
+    make -j $(nproc) -C Microsoft.WindowsAzure.Storage/build.release/
+    echo '$(test_configuration)' > Microsoft.WindowsAzure.Storage/build.release/Binaries/test_configurations.json
+    (cd Microsoft.WindowsAzure.Storage/build.release/Binaries/; ./azurestoragetest $(excluded_testcases))
+  displayName: 'make'
