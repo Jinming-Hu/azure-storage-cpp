@@ -17,10 +17,13 @@ container:
   image: azurecppsdkpipeline.azurecr.io/ubuntu16.04:latest
   endpoint: azurecppsdkpipeline
   
-steps:
-- script: |
-    cmake Microsoft.WindowsAzure.Storage/CMakeLists.txt -BMicrosoft.WindowsAzure.Storage/build.release/ -DCMAKE_BUILD_TYPE=Release -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON
-    make -j $(nproc) -C Microsoft.WindowsAzure.Storage/build.release/
-    echo '$(test_configuration)' > Microsoft.WindowsAzure.Storage/build.release/Binaries/test_configurations.json
-    (cd Microsoft.WindowsAzure.Storage/build.release/Binaries/; ./azurestoragetest $(excluded_testcases))
-  displayName: 'make'
+jobs:
+- job: Build and Test
+  timeoutInMinutes: 120
+  steps:
+  - script: |
+      cmake Microsoft.WindowsAzure.Storage/CMakeLists.txt -BMicrosoft.WindowsAzure.Storage/build.release/ -DCMAKE_BUILD_TYPE=Release -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON
+      make -j $(nproc) -C Microsoft.WindowsAzure.Storage/build.release/
+      echo '$(test_configuration)' > Microsoft.WindowsAzure.Storage/build.release/Binaries/test_configurations.json
+      (cd Microsoft.WindowsAzure.Storage/build.release/Binaries/; ./azurestoragetest $(excluded_testcases))
+    displayName: 'Build and Test'
