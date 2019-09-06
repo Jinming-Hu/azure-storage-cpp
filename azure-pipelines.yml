@@ -10,16 +10,18 @@ trigger:
 pr:
 - dev
 
-pool:
-  vmImage: 'ubuntu-16.04'
-
-container:
-  image: azurecppsdkpipeline.azurecr.io/ubuntu16.04:latest
-  endpoint: azurecppsdkpipeline
-  
 jobs:
-- job: Build and Test
+- job: Build_and_Test
+  displayName: Build and Test
   timeoutInMinutes: 120
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  container:
+    image: azurecppsdkpipeline.azurecr.io/ubuntu16.04:latest
+    endpoint: azurecppsdkpipeline
+
   steps:
   - script: |
       cmake Microsoft.WindowsAzure.Storage/CMakeLists.txt -BMicrosoft.WindowsAzure.Storage/build.release/ -DCMAKE_BUILD_TYPE=Release -DBUILD_SAMPLES=ON -DBUILD_TESTS=ON
