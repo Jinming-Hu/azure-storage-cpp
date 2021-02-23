@@ -225,6 +225,7 @@ namespace azure { namespace storage { namespace protocol {
         string_to_sign += core::convert_to_iso8601_string(key.signed_expiry, 0) + new_line;
         string_to_sign += key.signed_service + new_line;
         string_to_sign += key.signed_version + new_line;
+        string_to_sign += new_line + new_line + new_line;
         string_to_sign += policy.address_or_range().to_string() + new_line;
         string_to_sign += policy.protocols_to_string() + new_line;
         string_to_sign += header_value_storage_version + new_line;
